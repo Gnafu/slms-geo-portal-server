@@ -1,0 +1,17 @@
+{
+  "secret": "ngEurope rocks!",
+  "mail": {
+    "portalURL": "http://www.nfms.lk",
+    "from": "donotreply@nfms.lk",
+    "to": [{
+      "category": "Thematic mapping and Monitoring",
+      "recipients": ["stefano.giaccio@fao.org", "sgiaccio@me.com"]
+    } ,{
+      "category": "Forest Offences",
+      "recipients": ["stefano.giaccio@fao.org"]
+    }, {
+      "category": "Information Dissemination (RTI)",
+      "recipients": ["sgiaccio@me.com"]
+    }]
+  }
+}
