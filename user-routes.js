@@ -61,7 +61,7 @@ function getUserScheme(req) {
 //   });
 // });
 
-app.post('/sessions/create', (req, res) => {
+app.post('/api/sessions/create', (req, res) => {
   const userScheme = getUserScheme(req);
 
   if (!userScheme.username || !req.body.password) {

@@ -14,9 +14,6 @@ app.use('/api/protected', jwtCheck);
 
 app.use(function(err, req, res, next) {
   res.status(err.status).send(err.message);
-  // if (err.name === 'UnauthorizedError') {
-  //   res.status(401).send('No Authorization header was found');
-  // }
 });
 
 app.post('/api/protected/layers_conf/save', function(req, res) {
@@ -26,7 +23,6 @@ app.post('/api/protected/layers_conf/save', function(req, res) {
 });
 
 app.get('/api/protected/layers_conf/versions', function(req, res) {
-  // TODO
   db.find({ layers: { $exists: true } })
     .sort({ version: -1 })
     .exec((err, docs) => {
