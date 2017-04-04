@@ -8,7 +8,7 @@ const db = require('./db');
 
 function loadFromFile(path) {
   const json = fs.readFileSync(path, 'utf8');
-  return db.insertNewLayersJson(json);
+  return db.insertNewLayersJson(JSON.parse(json));
 }
 
 app.get('/api/layers.json', function(req, res) {
@@ -17,10 +17,10 @@ app.get('/api/layers.json', function(req, res) {
     .limit(1)
     .exec((err, docs) => {
       if (err) return res.status(500).send('Can\'t get layers configuration from the DB');
+      console.log(docs);
       if (!docs.length) {
         // res.status(500).send('layers.json DB is empty!');
-        loadFromFile('./layers.json').then((json) => {
-          console.log(json);
+        loadFromFile('./layers.default.json').then((json) => {
           res.status(200).send(json);
         });
       } else {
