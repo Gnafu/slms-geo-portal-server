@@ -17,7 +17,7 @@ app.use(function(err, req, res, next) {
 });
 
 app.post('/api/protected/layers_conf/save', function(req, res) {
-  insertNewLayersJson(req.body)
+  db.insertNewLayersJson(req.body)
     .then(() => res.status(200).send('Ok'))
     .catch(error => res.status(400).send(error));
 });
@@ -49,27 +49,8 @@ app.get('/api/protected/layers_conf/restore_version', function(req, res) {
 
       const layersJson = docs[0];
 
-      insertNewLayersJson(layersJson)
+      db.insertNewLayersJson(layersJson)
         .then(() => res.status(200).send('Ok'))
         .catch(error => res.status(400).send(error));
     });
 });
-
-function insertNewLayersJson(layersJson) {
-  return new Promise((resolve, reject) => {
-    db.getAutoincrementId((err, id) => {
-      if (err) reject(err);
-
-      layersJson.version = id;
-      layersJson.date = new Date();
-      layersJson.schema = layersJson.$schema;
-      delete layersJson.$schema;
-      delete layersJson._id;
-
-      db.insert(layersJson, (err, newDoc) => {
-        if (err) reject(err);
-        resolve();
-      });
-    });
-  });
-}

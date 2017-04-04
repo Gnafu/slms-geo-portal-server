@@ -16,4 +16,23 @@ db.getAutoincrementId = function(cb) {
   return this;
 };
 
+db.insertNewLayersJson = function(layersJson) {
+  return new Promise((resolve, reject) => {
+    db.getAutoincrementId((err, id) => {
+      if (err) reject(err);
+
+      layersJson.version = id;
+      layersJson.date = new Date();
+      layersJson.schema = layersJson.$schema;
+      delete layersJson.$schema;
+      delete layersJson._id;
+
+      db.insert(layersJson, (err, newDoc) => {
+        if (err) reject(err);
+        resolve(layersJson);
+      });
+    });
+  });
+};
+
 module.exports = db;

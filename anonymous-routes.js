@@ -1,9 +1,15 @@
 const express = require('express'),
       app = module.exports = express.Router(),
       nodemailer = require('nodemailer'),
-      config = require('./config');
+      config = require('./config'),
+      fs = require('fs');
 
 const db = require('./db');
+
+function loadFromFile(path) {
+  const json = fs.readFileSync(path, 'utf8');
+  return db.insertNewLayersJson(json);
+}
 
 app.get('/api/layers.json', function(req, res) {
   db.find({ layers: { $exists: true } })
@@ -11,15 +17,21 @@ app.get('/api/layers.json', function(req, res) {
     .limit(1)
     .exec((err, docs) => {
       if (err) return res.status(500).send('Can\'t get layers configuration from the DB');
-      if (!docs.length) res.status(500).send('layers.json DB is empty!');
+      if (!docs.length) {
+        // res.status(500).send('layers.json DB is empty!');
+        loadFromFile('./layers.json').then((json) => {
+          console.log(json);
+          res.status(200).send(json);
+        });
+      } else {
+        const json = docs[0];
+        json.$schema = json.schema;
+        delete json.schema;
+        delete json.version;
+        delete json.date;
 
-      const layersJson = docs[0];
-      layersJson.$schema = layersJson.schema;
-      delete layersJson.schema;
-      delete layersJson.version;
-      delete layersJson.date;
-
-      res.status(200).send(layersJson);
+        res.status(200).send(json);
+      }
     });
 });
 
