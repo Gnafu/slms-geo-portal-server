@@ -2,5 +2,7 @@
 
 This is not production-ready
 
-`npm install`
-`node server.js`
+```
+npm install
+node server.js
+```
