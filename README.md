@@ -2,4 +2,5 @@
 
 This is not production-ready
 
-`$# node server.js`
+`npm install`
+`node server.js`
