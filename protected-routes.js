@@ -34,7 +34,7 @@ app.get('/api/protected/layers_conf/versions', function(req, res) {
         delete layersJson.schema;
       });
 
-      const ret = docs.map(doc => ({ version: doc.version, date: doc.date || new Date(0) })); // DEBUG - delete new Date(0)
+      const ret = docs.map(doc => ({ version: doc.version, date: doc.date }));
       res.status(200).send(ret);
     });
 });
