@@ -64,4 +64,30 @@ app.post('/feedback', (req, res) => {
     if (err) res.status(500).send(err);
     else res.sendStatus(200);
   });
+  res.sendStatus(200);
+});
+
+app.post('/api/layer_info_download_log', (req, res) => {
+  const from = config.layerInfoDownloadTracking && config.layerInfoDownloadTracking.from;
+  const to = config.layerInfoDownloadTracking && config.layerInfoDownloadTracking.to;
+
+  if (!from || !to) {
+    const str = !from && !to ? 'parameters "from" and "to" are' : `parameter ${!from ? '"from"' : '"to"'} is`;
+    res.status(500).send(`layerInfoDownloadTracking config ${str} not set`);
+    return;
+  }
+
+  transporter.sendMail({
+    from,
+    to,
+    subject: 'Layer Info Download Data',
+    html: `<p>Requester email: <a href="${req.body.email}">${req.body.email}</a></p>` +
+      `<p>Requested file link: <a href="${req.body.link}">${req.body.link}</a></p>`
+  }, (err) => {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.sendStatus(200);
+    }
+  });
 });
