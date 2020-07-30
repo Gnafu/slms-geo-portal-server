@@ -13,5 +13,9 @@
       "category": "Information Dissemination (RTI)",
       "recipients": ["sgiaccio@me.com"]
     }]
+  },
+  "layerInfoDownloadTracking": {
+      "from": "from_example@example.org",
+      "to": "to_example@example.org"
   }
 }
