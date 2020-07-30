@@ -30,7 +30,7 @@
     "express": "^4.15.2",
     "express-jwt": "^0.3.2",
     "jsonwebtoken": "^5.7.0",
-    "lodash": "^2.4.2",
+    "lodash": "^4.17.19",
     "morgan": "^1.8.1",
     "nedb": "^1.8.0",
     "nodemailer": "^3.1.8"
